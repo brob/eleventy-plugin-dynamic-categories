@@ -15,12 +15,12 @@ Install the plugin with `npm install --save eleventy-plugin-dynamic-categories`
 Add the plugin to your `.eleventy.js` config file. Provide the plugin with the name of the variable that you use in your frontmatter to assign categories to your content. Use `itemsCollection` to specify the key for which collection you want to use.
 
 ```js
-const { dynamicCategories } = require('eleventy-plugin-dynamic-categories');
+const dynamicCategories = require('eleventy-plugin-dynamic-categories');
 
 module.exports = function(eleventyConfig) {
     eleventyConfig.addPlugin(dynamicCategories, {
         categoryVar: "categories", // Name of your category variable from your frontmatter (default: categories)
-        itemsCollection: "posts" // Name of your collection to use for the items (default: posts)
+        itemsCollection: "posts", // Name of your collection to use for the items (default: posts)
         categoryCollection: "categories" // Name of the new collection to use for the categories (default: value in categoryVar)
         // categoryCollection MUST be unique currently
     })
@@ -71,21 +71,20 @@ Usage for a loop:
 If you need to create multiple categories out of multiple collections, you can add the plugin multiple times with different configruations.
 
 ```js
-const { dynamicCategories } = require('eleventy-plugin-dynamic-categories');
+const dynamicCategories = require('eleventy-plugin-dynamic-categories');
 
 module.exports = function(eleventyConfig) {
     eleventyConfig.addPlugin(dynamicCategories, {
         categoryVar: "categories", // Name of your category variable from your frontmatter (default: categories)
-        itemsCollection: "posts" // Name of your collection to use for the items (default: posts)
+        itemsCollection: "posts", // Name of your collection to use for the items (default: posts)
         categoryCollection: "categories" // Name of the new collection to use for the categories (default: value in categoryVar)
         // categoryCollection MUST be unique currently
     })
     eleventyConfig.addPlugin(dynamicCategories, {
         categoryVar: "categories2", // Name of your category variable from your frontmatter (default: categories)
-        itemsCollection: "posts" // Name of your collection to use for the items (default: posts)
+        itemsCollection: "posts", // Name of your collection to use for the items (default: posts)
         categoryCollection: "categories2" // Name of the new collection to use for the categories (default: value in categoryVar)
         // categoryCollection MUST be unique currently
     })
 }
 ```
-

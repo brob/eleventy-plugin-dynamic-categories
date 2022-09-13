@@ -7,23 +7,23 @@ module.exports = function(eleventyConfig, options={
     const categoryCollection = options.categoryCollection || options.categoryVar;
     console.log({categoryCollection})
     eleventyConfig.addCollection(categoryCollection, function(collections) {
-        console.log(options)
-        let categories = [];
-        let sortedPosts = [];
         const posts = collections.getFilteredByTag(options.itemsCollection)
+        const categoriesTest = posts.map(post => {
+          if (!post.data[categoryCollection]) return []
+          return post.data[categoryCollection]}).flat()
+        const categoriesSet = [...new Set(categoriesTest)]
 
-        posts.forEach(post => {
-          categories = [...new Set([...categories, ...post.data[categoryCollection]])];
-        });
-        categories.forEach(category => {
-          let filteredPosts = posts.filter(post => post.data[categoryCollection].includes(category));
-          let categoryDetails =  { 
+        const categoriesWithPosts = categoriesSet.map(category => {
+          let filteredPosts = posts.filter(post => {
+            if (!post.data[categoryCollection]) return false
+            return post.data[categoryCollection].includes(category)});
+          return { 
             'title': category,
             'slug': slugify(category),
             'posts': [ ...filteredPosts ]
           };
-          sortedPosts.push(categoryDetails);      
-        });
-        return sortedPosts;
+        })
+       
+        return categoriesWithPosts;
     })
 }
