@@ -3,9 +3,9 @@ let _ = require("lodash");
 
 /*
 List all options from this plugin
+categoryVar
 categoryCollection
 pageCount
-categoryVar
 itemsCollection
 
 */
@@ -17,11 +17,9 @@ module.exports = function(eleventyConfig, options={
     const categoryCollection = options.categoryCollection || options.categoryVar;
     const pageCount = options.pageCount || 5
 
-    eleventyConfig.addGlobalData('paginationKeys', {categoryCollection})
     // Creates the collection
     eleventyConfig.addCollection(categoryCollection, function(collections) {
 
-      eleventyConfig.addGlobalData(`ByPage`, 'hello')
       const posts = collections.getFilteredByTag(options.itemsCollection)
       const categoriesTest = posts.map(post => {
         if (!post.data[categoryCollection]) return []
