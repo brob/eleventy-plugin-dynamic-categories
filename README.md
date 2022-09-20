@@ -10,8 +10,6 @@ It creates two collections. One is named either the `categoryVar` or `categoryCo
 
 Install the plugin with `npm install --save eleventy-plugin-dynamic-categories`
 
-## Usage
-
 ### Configure
 
 Add the plugin to your `.eleventy.js` config file. Provide the plugin with the name of the variable that you use in your frontmatter to assign categories to your content. Use `itemsCollection` to specify the key for which collection you want to use.
@@ -22,7 +20,6 @@ Add the plugin to your `.eleventy.js` config file. Provide the plugin with the n
 |`itemsCollection`|The name of the collection you want to categorize.|`string`|`posts`|
 |`pageCount`|The number of items to display per page.|`number`|`5`|
 |`categoryCollection`|The name of the collection that will be created by the plugin (must be unique).|`string`|`categories`|
-
 
 
 ```js
@@ -39,12 +36,12 @@ module.exports = function(eleventyConfig) {
 }
 ```
 
-### Build or loop through your categories
+## Build or loop through your categories
 
 The plugin creates a data structure of an array of categories that contain a title (based on the string for each category), a slug to be used for URLs (slugified from the category name), and an array of items that are assigned to that category. The data is stored as an 11ty Collection with the key of the `categoryVar` you specified or overridden by the `categoryCollection` you specified. The collection name must be unique.
 
 
-Usage for pagination:
+### Usage for pagination:
 
 ```html
 ---
@@ -55,7 +52,6 @@ pagination:
 permalink: /blog/category/{{ category.slug }}/
 ---
 
-
 {% for post in category.posts %}
 <li>
     <a href="{{ post.url }}">{{ post.data.title }}</a>
@@ -63,7 +59,7 @@ permalink: /blog/category/{{ category.slug }}/
 {% endfor %}
 ```
 
-Usage for a loop: 
+### Usage for a loop: 
 
 ```html
 <h1>Categories</h1>
@@ -79,7 +75,35 @@ Usage for a loop:
 {% endfor %}
 ```
 
-### Multiple Category usage
+## Paginated Category template example
+
+```html
+---
+layout: base.html
+# Default permalink scheme (still able to be customized)
+permalink: /posts/{{category.permalinkScheme}}
+pagination:
+  data: collections.categoriesByPage
+  size: 1
+  alias: category
+  addAllPagesToCollections: true
+eleventyComputed:
+  title: Blog entries with category &quot;{{ category.slug }}&quot; {% if tcategoryag.pageNumber > 0 %}, (Page {{ category.pageNumber + 1 }}) {% endif %}
+---
+
+{% for post in category.posts %}
+<li>
+    <a href="{{post.url}}">{{ post.data.title }} yo</a>
+</li>
+{% endfor %}
+
+
+{# This can still be customized, but then there's markup for basic pagination #}
+{% pagination category %}
+```
+
+
+## Multiple Category usage
 If you need to create multiple categories out of multiple collections, you can add the plugin multiple times with different configruations.
 
 ```js
@@ -111,29 +135,3 @@ For each page, this will generate pagination that includes next and previous lin
 {% pagination category %}
 ```
 
-## Paginated Category template example
-
-```html
----
-layout: base.html
-# Default permalink scheme (still able to be customized)
-permalink: /posts/{{category.permalinkScheme}}
-pagination:
-  data: collections.categoriesByPage
-  size: 1
-  alias: category
-  addAllPagesToCollections: true
-eleventyComputed:
-  title: Blog entries with category &quot;{{ category.slug }}&quot; {% if tcategoryag.pageNumber > 0 %}, (Page {{ category.pageNumber + 1 }}) {% endif %}
----
-
-{% for post in category.posts %}
-<li>
-    <a href="{{post.url}}">{{ post.data.title }} yo</a>
-</li>
-{% endfor %}
-
-
-{# This can still be customized, but then there's markup for basic pagination #}
-{% pagination category %}
-```
