@@ -1,0 +1,30 @@
+---
+layout: base.html
+# Default permalink scheme (still able to be customized)
+permalink: /posts/{{category.permalinkScheme}}
+pagination:
+  data: collections.categoriesByPage
+  size: 1
+  alias: category
+  addAllPagesToCollections: true
+eleventyComputed:
+  title: Blog entries with category &quot;{{ category.slug }}&quot; {% if tcategoryag.pageNumber > 0 %}, (Page {{ category.pageNumber + 1 }}) {% endif %}
+---
+
+
+<li>Slug: {{ category.slug }}</li>
+<li>category title: {{ category.title }}</li>
+<li>posts {{ category.posts }}</li>
+<li>page number: {{ category.pages.current }}</li>
+<li>total pages: {{ category.totalPages }}</li>
+
+<h1>{{ title }}</h1>
+{% for post in category.posts %}
+<li>
+    <a href="{{post.url}}">{{ post.data.title }} yo</a>
+</li>
+{% endfor %}
+
+
+{# This can still be customized, but then there's markup for basic pagination #}
+{% pagination category %}

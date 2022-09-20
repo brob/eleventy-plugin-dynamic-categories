@@ -1,6 +1,6 @@
 {
   "name": "eleventy-plugin-dynamic-categories",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "",
   "main": ".eleventy.js",
   "scripts": {
@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@11ty/eleventy": "^1.0.2",
+    "lodash": "^4.17.21",
     "slugify": "^1.6.5"
   }
 }

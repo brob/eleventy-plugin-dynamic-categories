@@ -4,6 +4,8 @@ This plugin is super alpha!
 
 This plugin will accept a category name and a collection name and create data that can be used to create or display category lists for content.
 
+It creates two collections. One is named either the `categoryVar` or `categoryCollection` configuration string. This has all posts in the category. The other is named that same string with `ByPage` appended to create a category collection that is paginated.
+
 ## Installation
 
 Install the plugin with `npm install --save eleventy-plugin-dynamic-categories`
@@ -13,6 +15,15 @@ Install the plugin with `npm install --save eleventy-plugin-dynamic-categories`
 ### Configure
 
 Add the plugin to your `.eleventy.js` config file. Provide the plugin with the name of the variable that you use in your frontmatter to assign categories to your content. Use `itemsCollection` to specify the key for which collection you want to use.
+
+|property|description|type|default|
+|---|---|---|---|
+|`categoryVar`|The name of the variable in your frontmatter that you use to assign categories to your content.|`string`|`categories`|
+|`itemsCollection`|The name of the collection you want to categorize.|`string`|`posts`|
+|`pageCount`|The number of items to display per page.|`number`|`5`|
+|`categoryCollection`|The name of the collection that will be created by the plugin (must be unique).|`string`|`categories`|
+
+
 
 ```js
 const dynamicCategories = require('eleventy-plugin-dynamic-categories');
@@ -87,4 +98,41 @@ module.exports = function(eleventyConfig) {
         // categoryCollection MUST be unique currently
     })
 }
+```
+
+## Pagination template tag
+The pagination template tag is a helper tag that generates markup for basic pagination to save template overhead. It accepts the page information from the pagination item (usually aliased to something like `category`).
+
+For each page, this will generate pagination that includes next and previous links as well as a list of page numbers. The current page will be styled as active.
+
+### Usage
+```html
+{% pagination category %}
+```
+
+## Paginated Category template example
+
+```html
+---
+layout: base.html
+# Default permalink scheme (still able to be customized)
+permalink: /posts/{{category.permalinkScheme}}
+pagination:
+  data: collections.categoriesByPage
+  size: 1
+  alias: category
+  addAllPagesToCollections: true
+eleventyComputed:
+  title: Blog entries with category &quot;{{ category.slug }}&quot; {% if tcategoryag.pageNumber > 0 %}, (Page {{ category.pageNumber + 1 }}) {% endif %}
+---
+
+{% for post in category.posts %}
+<li>
+    <a href="{{post.url}}">{{ post.data.title }} yo</a>
+</li>
+{% endfor %}
+
+
+{# This can still be customized, but then there's markup for basic pagination #}
+{% pagination category %}
 ```

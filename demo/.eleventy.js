@@ -3,11 +3,8 @@ const categoryPlugin = require('../.eleventy.js')
 module.exports = function(eleventyConfig) {
     eleventyConfig.addPlugin(categoryPlugin, {
         categoryVar: "categories",
-        itemsCollection: "posts"
+        itemsCollection: "posts",
+        pageCount: 2
     })
-    eleventyConfig.addPlugin(categoryPlugin, {
-        categoryVar: "categories",
-        itemsCollection: "articles",
-        categoryCollection: "articleCategories"
-    })
+
 }

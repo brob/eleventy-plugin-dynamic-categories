@@ -7,11 +7,9 @@
     <title>Document</title>
 </head>
 <body>
-    {{ content }}
+{{ title }}
 
-    {% for post in collections.posts %}
-        <li>{{post.data.title}}</li>
-    {% endfor %}
+    {{ content }}
 
     <h1>Categories</h1>
     {% for category in collections.categories %}
