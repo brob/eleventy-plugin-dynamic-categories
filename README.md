@@ -10,7 +10,7 @@ Example:
 
 When you initialize with a `categoryVar` or `categoryCollection` of `categories`, the plugin will create two collections: `categories` and `categoriesByPage`. ``categories` is a collection where each item has the following data:
 
-```json
+```js
 {
     "title": "Category Name",
     "slug": "category-name",
@@ -22,7 +22,7 @@ This is great for simple loops or for categories with small amounts of content.
 
 You also get `categoriesByPage` which allows you to use 11ty's Pagination functionality to go deeper and paginate posts per category, as well, with more data and helper functions. Each category page has the following information (required for making the pages)
 
-```json
+```js
 {
     "title": "Category Name",
     "slug": "category-name",
