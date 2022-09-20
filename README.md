@@ -12,9 +12,9 @@ When you initialize with a `categoryVar` or `categoryCollection` of `categories`
 
 ```json
 {
-    title: "Category Name",
-    slug: "category-name",
-    posts: [ /* full array of posts in the category */ ]
+    "title": "Category Name",
+    "slug": "category-name",
+    "posts": [ /* full array of posts in the category */ ]
 }
 ```
 
@@ -24,16 +24,15 @@ You also get `categoriesByPage` which allows you to use 11ty's Pagination functi
 
 ```json
 {
-    title: "Category Name",
-    slug: "category-name",
-    posts: [ /* array of posts in the category on this page */ ],
-    permalinkScheme: "category-name/:num/",
-    totalPages: 4,
-    pages: {
-        current: 1,
-        next: 2,
-        previous: false (or num),
-
+    "title": "Category Name",
+    "slug": "category-name",
+    "posts": [ /* array of posts in the category on this page */ ],
+    "permalinkScheme": "category-name/:num/",
+    "totalPages": 4,
+    "pages": {
+        "current": 1,
+        "next": 2,
+        "previous": false // (or num)
     }
 }
 
