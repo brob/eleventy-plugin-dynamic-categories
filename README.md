@@ -6,10 +6,47 @@ This plugin will accept a category name and a collection name and create data th
 
 It creates two collections. One is named either the `categoryVar` or `categoryCollection` configuration string. This has all posts in the category. The other is named that same string with `ByPage` appended to create a category collection that is paginated.
 
+Example:
+
+When you initialize with a `categoryVar` or `categoryCollection` of `categories`, the plugin will create two collections: `categories` and `categoriesByPage`. ``categories` is a collection where each item has the following data:
+
+```json
+{
+    title: "Category Name",
+    slug: "category-name",
+    posts: [ /* full array of posts in the category */ ]
+}
+```
+
+This is great for simple loops or for categories with small amounts of content.
+
+You also get `categoriesByPage` which allows you to use 11ty's Pagination functionality to go deeper and paginate posts per category, as well, with more data and helper functions. Each category page has the following information (required for making the pages)
+
+```json
+{
+    title: "Category Name",
+    slug: "category-name",
+    posts: [ /* array of posts in the category on this page */ ],
+    permalinkScheme: "category-name/:num/",
+    totalPages: 4,
+    pages: {
+        current: 1,
+        next: 2,
+        previous: false (or num),
+
+    }
+}
+
+```
+This is pretty abstract. There are examples below that should hopefully clarify.
+
 ## Installation
 
-Install the plugin with `npm install --save eleventy-plugin-dynamic-categories`
+Install the plugin with 
 
+```sh
+npm install eleventy-plugin-dynamic-categories
+```
 ### Configure
 
 Add the plugin to your `.eleventy.js` config file. Provide the plugin with the name of the variable that you use in your frontmatter to assign categories to your content. Use `itemsCollection` to specify the key for which collection you want to use.
