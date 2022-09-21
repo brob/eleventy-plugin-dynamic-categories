@@ -6,5 +6,10 @@ module.exports = function(eleventyConfig) {
         itemsCollection: "posts",
         pageCount: 2
     })
+    eleventyConfig.addPlugin(categoryPlugin, {
+        categoryVar: "articleCategories",
+        itemsCollection: "articles",
+        pageCount: 2
+    })
     eleventyConfig.addPassthroughCopy('assets')
 }

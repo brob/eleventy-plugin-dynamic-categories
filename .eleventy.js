@@ -1,5 +1,6 @@
 const slugify = require('slugify');
 let _ = require("lodash");
+const getCategoryKeys = require('./src/getCategoryKeys.js')
 
 /*
 List all options from this plugin
@@ -21,12 +22,9 @@ module.exports = function(eleventyConfig, options={
     eleventyConfig.addCollection(categoryCollection, function(collections) {
 
       const posts = collections.getFilteredByTag(options.itemsCollection)
-      const categoriesTest = posts.map(post => {
-        if (!post.data[categoryCollection]) return []
-        return post.data[categoryCollection]}).flat()
-      const categoriesSet = [...new Set(categoriesTest)]
+      let tagArray = getCategoryKeys(posts, options);
 
-      const categoriesWithPosts = categoriesSet.map(category => {
+      const categoriesWithPosts = tagArray.map(category => {
         let filteredPosts = posts.filter(post => {
           if (!post.data[categoryCollection]) return false
           return post.data[categoryCollection].includes(category)}
@@ -36,29 +34,27 @@ module.exports = function(eleventyConfig, options={
           'title': category,
           'slug': slugify(category),
           'posts': [ ...filteredPosts ],
-          tags: [categoryCollection],
         };
       })
-
+      console.log(`\x1b[32m[Dynamic Categories] Created Collection ${categoryCollection} with ${categoriesWithPosts.length} items`, '\x1b[0m')
       return categoriesWithPosts;
     })
 
     eleventyConfig.addCollection(`${categoryCollection}ByPage`, function(collection) {
         // Get unique list of all tags currently in use
         const posts = collection.getFilteredByTag(options.itemsCollection)
-        const tagSet = new Set(posts.flatMap((post) => post.data[options.categoryVar] || []));
 
         // Get each item that matches the tag and add it to the tag's array, chunked by paginationSize
         let paginationSize = pageCount;
         let tagMap = [];
-        let tagArray = [...tagSet];
+        let tagArray = getCategoryKeys(posts, options);
 
         for(let tagName of tagArray) {
           const filteredPosts = posts.filter(post => {
             if (!post.data[categoryCollection]) return false
             return post.data[categoryCollection].includes(tagName)}
             ).flat();
-          console.log(filteredPosts.length)
+
           let tagItems = filteredPosts.reverse();
           let pagedItems = _.chunk(tagItems, paginationSize);
           for( let pageNumber = 0, max = pagedItems.length; pageNumber < max; pageNumber++) {
@@ -74,10 +70,8 @@ module.exports = function(eleventyConfig, options={
                 previous: pageNumber >= 1 &&  pageNumber
               }
             });
-            console.log(tagMap.length)
           }
         }
-        console.log({tagMap})
         // Return a two-dimensional array of items, chunked by paginationSize
         return tagMap;
     });
@@ -92,7 +86,7 @@ module.exports = function(eleventyConfig, options={
         const urlBase = current == 1 ? './' : '../'
         const url = pageNumber === 1 ? `${urlBase}` : `${urlBase}${pageNumber}`
         const isCurrent = pageNumber === current;
-        console.log(url, isCurrent)
+
         return `
         <span class="pagination-page${isCurrent ? ' currentPage' : ''}">
           ${isCurrent ? pageNumber : `<a href="${url}">${pageNumber}</a>`}
