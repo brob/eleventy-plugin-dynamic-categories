@@ -61,7 +61,7 @@ module.exports = function(eleventyConfig, options={
             tagMap.push({
               slug: tagName,
               title: tagName,
-              totalPages: max + 1,
+              totalPages: Math.ceil(filteredPosts.length / perPageCount),
               posts: pagedItems[pageNumber],
               permalinkScheme: `${tagName}${(pageNumber + 1) > 1 ? `/${pageNumber + 1}` : ''}/index.html`,
               pages: {
