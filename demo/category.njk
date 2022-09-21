@@ -8,7 +8,7 @@ pagination:
   alias: category
   addAllPagesToCollections: true
 eleventyComputed:
-  title: Blog entries with category &quot;{{ category.slug }}&quot; {% if tcategoryag.pageNumber > 0 %}, (Page {{ category.pageNumber + 1 }}) {% endif %}
+  title: Blog entries with category "{{ category.slug }}" {% if tcategoryag.pageNumber > 0 %}, (Page {{ category.pageNumber + 1 }}) {% endif %}
 ---
 
 

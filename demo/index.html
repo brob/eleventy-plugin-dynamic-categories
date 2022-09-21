@@ -8,3 +8,35 @@ hi
 {% endfor %}
 
 <h1>tags: {{ ByPage | log }}</h1>
+
+
+<h1>Categories</h1>
+{% for category in collections.categories %}
+    <div>
+        <h2><a href="/posts/{{category.slug}}/">{{ category.title }}</a></h2>
+        <ul>
+            {% for post in category.posts %}
+                <h3>{{ post.data.title }}</h3>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endfor %}
+
+
+<h1>Testing second implementation</h1>
+{% for post in collections.articles %}
+    <li>{{post.data.title}}</li>
+{% endfor %}
+<h1>Categories</h1>
+{% for category in collections.articleCategories %}
+    <div>
+        <h2><a href="/articles/{{category.slug}}/">{{ category.title }}</a></h2>
+        <ul>
+            {% for post in category.posts %}
+                <h3>{{ post.data.title }}</h3>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endfor %}

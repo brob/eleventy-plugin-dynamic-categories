@@ -1,0 +1,23 @@
+nav {
+    display: flex;
+    justify-content: center;
+}
+        
+.pagination {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+        
+.pagination-page {
+    margin: 0 1px;
+    padding: .5ch 1ch;
+    border: 1px solid #333;
+}
+.pagination-page.currentPage {
+    background:  #333;
+    color: white;
+}
+
+    

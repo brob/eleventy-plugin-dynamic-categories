@@ -5,41 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
 {{ title }}
 
     {{ content }}
 
-    <h1>Categories</h1>
-    {% for category in collections.categories %}
-        <div>
-            <h2><a href="/blog/category/{{category.slug}}/">{{ category.title }}</a></h2>
-            <ul>
-                {% for post in category.posts %}
-                    <h3>{{ post.data.title }}</h3>
-                {% endfor %}
-            </ul>
-        </div>
-
-    {% endfor %}
-
-
-    <h1>Testing second implementation</h1>
-    {% for post in collections.articles %}
-        <li>{{post.data.title}}</li>
-    {% endfor %}
-    <h1>Categories</h1>
-    {% for category in collections.articleCategories %}
-        <div>
-            <h2><a href="/blog/category/{{category.slug}}/">{{ category.title }}</a></h2>
-            <ul>
-                {% for post in category.posts %}
-                    <h3>{{ post.data.title }}</h3>
-                {% endfor %}
-            </ul>
-        </div>
-
-    {% endfor %}
 </body>
 </html>

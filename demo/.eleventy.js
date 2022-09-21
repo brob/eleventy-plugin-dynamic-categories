@@ -6,5 +6,5 @@ module.exports = function(eleventyConfig) {
         itemsCollection: "posts",
         pageCount: 2
     })
-
+    eleventyConfig.addPassthroughCopy('assets')
 }
