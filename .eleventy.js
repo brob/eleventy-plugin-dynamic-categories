@@ -6,7 +6,7 @@ const getCategoryKeys = require('./src/getCategoryKeys.js')
 List all options from this plugin
 categoryVar
 categoryCollection
-pageCount
+perPageCount
 itemsCollection
 
 */
@@ -16,7 +16,7 @@ module.exports = function(eleventyConfig, options={
   itemCollection: "posts",
 }) {
     const categoryCollection = options.categoryCollection || options.categoryVar;
-    const pageCount = options.pageCount || 5
+    const perPageCount = options.perPageCount || 5
 
     // Creates the collection
     eleventyConfig.addCollection(categoryCollection, function(collections) {
@@ -45,7 +45,7 @@ module.exports = function(eleventyConfig, options={
         const posts = collection.getFilteredByTag(options.itemsCollection)
 
         // Get each item that matches the tag and add it to the tag's array, chunked by paginationSize
-        let paginationSize = pageCount;
+        let paginationSize = perPageCount;
         let tagMap = [];
         let tagArray = getCategoryKeys(posts, options);
 
@@ -61,12 +61,12 @@ module.exports = function(eleventyConfig, options={
             tagMap.push({
               slug: tagName,
               title: tagName,
-              totalPages: max,
+              totalPages: max + 1,
               posts: pagedItems[pageNumber],
               permalinkScheme: `${tagName}${(pageNumber + 1) > 1 ? `/${pageNumber + 1}` : ''}/index.html`,
               pages: {
                 current: pageNumber + 1,
-                next: pageNumber != max -1 && pageNumber + 2,
+                next: pageNumber != max && pageNumber + 2,
                 previous: pageNumber >= 1 &&  pageNumber
               }
             });

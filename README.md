@@ -54,7 +54,7 @@ Add the plugin to your `.eleventy.js` config file. Provide the plugin with the n
 |---|---|---|---|
 |`categoryVar`|The name of the variable in your frontmatter that you use to assign categories to your content.|`string`|`categories`|
 |`itemsCollection`|The name of the collection you want to categorize.|`string`|`posts`|
-|`pageCount`|The number of items to display per page.|`number`|`5`|
+|`perPageCount`|The number of items to display per page.|`int`|`5`|
 |`categoryCollection`|The name of the collection that will be created by the plugin (must be unique).|`string`|`categories`|
 
 
@@ -67,7 +67,7 @@ module.exports = function(eleventyConfig) {
         itemsCollection: "posts", // Name of your collection to use for the items (default: posts)
         categoryCollection: "categories", // Name of the new collection to use for the categories (default: value in categoryVar)
         // categoryCollection MUST be unique currently
-        pageCount: 5 // Number of items to display per page of categoriesByPage (default: 5)
+        perPageCount: 5 // Number of items to display per page of categoriesByPage (default: 5)
     })
 }
 ```
