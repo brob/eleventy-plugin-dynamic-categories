@@ -47,16 +47,22 @@ module.exports = function(eleventyConfig, options={
         // Get unique list of all tags currently in use
         const posts = collection.getFilteredByTag(options.itemsCollection)
         const tagSet = new Set(posts.flatMap((post) => post.data[options.categoryVar] || []));
-        console.log(tagSet)
+
         // Get each item that matches the tag and add it to the tag's array, chunked by paginationSize
         let paginationSize = pageCount;
         let tagMap = [];
         let tagArray = [...tagSet];
+
         for(let tagName of tagArray) {
-          let tagItems = posts.reverse();
+          const filteredPosts = posts.filter(post => {
+            if (!post.data[categoryCollection]) return false
+            return post.data[categoryCollection].includes(tagName)}
+            ).flat();
+          console.log(filteredPosts.length)
+          let tagItems = filteredPosts.reverse();
           let pagedItems = _.chunk(tagItems, paginationSize);
           for( let pageNumber = 0, max = pagedItems.length; pageNumber < max; pageNumber++) {
-            tagMap[pageNumber] ={
+            tagMap.push({
               slug: tagName,
               title: tagName,
               totalPages: max,
@@ -67,9 +73,11 @@ module.exports = function(eleventyConfig, options={
                 next: pageNumber != max -1 && pageNumber + 2,
                 previous: pageNumber >= 1 &&  pageNumber
               }
-            };
+            });
+            console.log(tagMap.length)
           }
         }
+        console.log({tagMap})
         // Return a two-dimensional array of items, chunked by paginationSize
         return tagMap;
     });
@@ -86,13 +94,13 @@ module.exports = function(eleventyConfig, options={
         const isCurrent = pageNumber === current;
         console.log(url, isCurrent)
         return `
-        <span class="page${isCurrent ? ' currentPage' : ''}">
+        <span class="pagination-page${isCurrent ? ' currentPage' : ''}">
           ${isCurrent ? pageNumber : `<a href="${url}">${pageNumber}</a>`}
         </span>
         `}).join('')
 
-      const nextHref = next ? ` | <a href="${(current != 1) ? '../' : ''}${next}">Next Page</a>`: ''
-      const previousHref = previous ? `<a href="../${previous == 1 ? '' : previous}">Previous Page</a> | `: ''
+      const nextHref = next ? `<a class="pagination-page" href="${(current != 1) ? '../' : ''}${next}">Next Page</a>`: '<span class="pagination-page">Next Page</span>'
+      const previousHref = previous ? `<a class="pagination-page" href="../${previous == 1 ? '' : previous}">Previous Page</a>`: '<span class="pagination-page">Previous Page</span>'
       const markup = `<nav class="pagination">${previousHref}${pageList}${nextHref} </nav>`
       return markup
     })  
