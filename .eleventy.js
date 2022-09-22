@@ -57,16 +57,17 @@ module.exports = function(eleventyConfig, options={
 
           let tagItems = filteredPosts.reverse();
           let pagedItems = _.chunk(tagItems, paginationSize);
+          const totalPages = Math.ceil(filteredPosts.length / perPageCount)
           for( let pageNumber = 0, max = pagedItems.length; pageNumber < max; pageNumber++) {
             tagMap.push({
               slug: tagName,
               title: tagName,
-              totalPages: Math.ceil(filteredPosts.length / perPageCount),
+              totalPages,
               posts: pagedItems[pageNumber],
               permalinkScheme: `${tagName}${(pageNumber + 1) > 1 ? `/${pageNumber + 1}` : ''}/index.html`,
               pages: {
                 current: pageNumber + 1,
-                next: pageNumber != max && pageNumber + 2,
+                next: pageNumber != totalPages && pageNumber + 2,
                 previous: pageNumber >= 1 &&  pageNumber
               }
             });
