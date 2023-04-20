@@ -16,7 +16,8 @@ module.exports = function(eleventyConfig, options={
   itemCollection: "posts",
 }) {
     const categoryCollection = options.categoryCollection || options.categoryVar;
-    const perPageCount = options.perPageCount || 5
+    const categoryVar = options.categoryVar;
+    const perPageCount = options.perPageCount || 5;
 
     // Creates the collection
     eleventyConfig.addCollection(categoryCollection, function(collections) {
@@ -26,8 +27,8 @@ module.exports = function(eleventyConfig, options={
 
       const categoriesWithPosts = tagArray.map(category => {
         let filteredPosts = posts.filter(post => {
-          if (!post.data[categoryCollection]) return false
-          return post.data[categoryCollection].includes(category)}
+          if (!post.data[categoryVar]) return false
+          return post.data[categoryVar].includes(category)}
           ).flat();
           
         return { 
@@ -51,8 +52,8 @@ module.exports = function(eleventyConfig, options={
 
         for(let tagName of tagArray) {
           const filteredPosts = posts.filter(post => {
-            if (!post.data[categoryCollection]) return false
-            return post.data[categoryCollection].includes(tagName)}
+            if (!post.data[categoryVar]) return false
+            return post.data[categoryVar].includes(tagName)}
             ).flat();
 
           let tagItems = filteredPosts.reverse();
@@ -61,11 +62,11 @@ module.exports = function(eleventyConfig, options={
           for( let pageNumber = 0, max = pagedItems.length; pageNumber < max; pageNumber++) {
             const currentNumber = pageNumber + 1
             tagMap.push({
-              slug: tagName,
+              slug: slugify(tagName),
               title: tagName,
               totalPages,
               posts: pagedItems[pageNumber],
-              permalinkScheme: `${tagName}${currentNumber > 1 ? `/${currentNumber}` : ''}/index.html`,
+              permalinkScheme: `${slugify(tagName)}${currentNumber > 1 ? `/${currentNumber}` : ''}/index.html`,
               pages: {
                 current: currentNumber,
                 next: currentNumber != totalPages && currentNumber + 1,

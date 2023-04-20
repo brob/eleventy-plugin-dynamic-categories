@@ -3,7 +3,7 @@ layout: "base.html"
 ---
 
 
-<h1>Categories</h1>
+<h1>Post Categories</h1>
 {% for category in collections.categories %}
     <div>
         <h2><a href="/posts/{{category.slug}}/">{{ category.title }}</a></h2>
@@ -21,7 +21,7 @@ layout: "base.html"
 {% for post in collections.articles %}
     <li>{{post.data.title}}</li>
 {% endfor %}
-<h1>Categories</h1>
+<h1>Article Categories</h1>
 {% for category in collections.articleCategories %}
     <div>
         <h2><a href="/articles/{{category.slug}}/">{{ category.title }}</a></h2>

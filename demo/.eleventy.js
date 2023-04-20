@@ -7,7 +7,8 @@ module.exports = function(eleventyConfig) {
         perPageCount: 4
     })
     eleventyConfig.addPlugin(categoryPlugin, {
-        categoryVar: "articleCategories",
+        categoryVar: "categories",
+        categoryCollection: "articleCategories",
         itemsCollection: "articles",
         perPageCount: 2
     })
