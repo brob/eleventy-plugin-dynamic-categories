@@ -1,6 +1,6 @@
 ---
 title: Article B
-articleCategories: ['dev']
+categories: ['dev']
 ---
 
 Hello world
