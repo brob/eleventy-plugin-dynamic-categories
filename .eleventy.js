@@ -29,7 +29,7 @@ module.exports = function(eleventyConfig, options={
           if (!post.data[categoryCollection]) return false
           return post.data[categoryCollection].includes(category)}
           ).flat();
-          
+          console.log(slugify(category))
         return { 
           'title': category,
           'slug': slugify(category),
@@ -60,12 +60,13 @@ module.exports = function(eleventyConfig, options={
           const totalPages = Math.ceil(filteredPosts.length / perPageCount)
           for( let pageNumber = 0, max = pagedItems.length; pageNumber < max; pageNumber++) {
             const currentNumber = pageNumber + 1
+            const slug = slugify(tagName)
             tagMap.push({
-              slug: tagName,
+              slug,
               title: tagName,
               totalPages,
               posts: pagedItems[pageNumber],
-              permalinkScheme: `${tagName}${currentNumber > 1 ? `/${currentNumber}` : ''}/index.html`,
+              permalinkScheme: `${slug}${currentNumber > 1 ? `/${currentNumber}` : ''}/index.html`,
               pages: {
                 current: currentNumber,
                 next: currentNumber != totalPages && currentNumber + 1,
